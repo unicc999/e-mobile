@@ -15,8 +15,8 @@ func InitDB() *gorm.DB {
 	if err != nil {
 		log.Fatalf("Configuration loading error: %v", err)
 	}
-	dsn := fmt.Sprintf("host=%s dbname=%s password=%s user=%s port=%s sslmode=disable",
-		cfg.DatabaseHost, cfg.DatabaseName, cfg.DatabasePassword, cfg.DatabaseUser, cfg.DatabasePort)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+		cfg.DatabaseHost, cfg.DatabaseUser, cfg.DatabasePassword, cfg.DatabaseName, cfg.DatabasePort)
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("Database connection error: %v", err)

@@ -1,0 +1,120 @@
+definitions:
+  models.Person:
+    properties:
+      age:
+        type: integer
+      gender:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      nationality:
+        type: string
+      patronymic:
+        type: string
+      surname:
+        type: string
+    type: object
+host: localhost:8081
+info:
+  contact: {}
+  description: Сервис, который получает по API ФИО, из открытых API обогащает ответ
+    наиболее вероятными возрастом, полом и национальностью и сохраняет данные в БД.
+    По запросу выдает инфу о найденных людях.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  title: Effective Mobile тестовое задание.
+  version: "1.0"
+paths:
+  /api/people:
+    get:
+      description: Возвращает список всех людей из базы данных.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список людей
+          schema:
+            items:
+              $ref: '#/definitions/models.Person'
+            type: array
+      summary: Получить всех людей
+    post:
+      consumes:
+      - application/json
+      description: Создает нового человека с обогащенными данными (возраст, пол, национальность).
+      parameters:
+      - description: Данные человека
+        in: body
+        name: person
+        required: true
+        schema:
+          $ref: '#/definitions/models.Person'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Человек успешно создан
+          schema:
+            $ref: '#/definitions/models.Person'
+      summary: Создать нового человека
+  /api/people/{id}:
+    delete:
+      description: Удаляет человека по его уникальному ID.
+      parameters:
+      - description: ID человека
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Человек успешно удален
+          schema:
+            type: object
+      summary: Удалить человека
+    get:
+      description: Возвращает данные человека по его уникальному ID.
+      parameters:
+      - description: ID человека
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Данные человека
+          schema:
+            $ref: '#/definitions/models.Person'
+      summary: Получить человека по ID
+    put:
+      consumes:
+      - application/json
+      description: Обновляет данные существующего человека.
+      parameters:
+      - description: ID человека
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Обновленные данные человека
+        in: body
+        name: person
+        required: true
+        schema:
+          $ref: '#/definitions/models.Person'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Данные успешно обновлены
+          schema:
+            $ref: '#/definitions/models.Person'
+      summary: Обновить данные человека
+swagger: "2.0"

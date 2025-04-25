@@ -1,0 +1,179 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Сервис, который получает по API ФИО, из открытых API обогащает ответ наиболее вероятными возрастом, полом и национальностью и сохраняет данные в БД. По запросу выдает инфу о найденных людях.",
+        "title": "Effective Mobile тестовое задание.",
+        "contact": {},
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8081",
+    "paths": {
+        "/api/people": {
+            "get": {
+                "description": "Возвращает список всех людей из базы данных.",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Получить всех людей",
+                "responses": {
+                    "200": {
+                        "description": "Список людей",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Person"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Создает нового человека с обогащенными данными (возраст, пол, национальность).",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Создать нового человека",
+                "parameters": [
+                    {
+                        "description": "Данные человека",
+                        "name": "person",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Person"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Человек успешно создан",
+                        "schema": {
+                            "$ref": "#/definitions/models.Person"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/people/{id}": {
+            "get": {
+                "description": "Возвращает данные человека по его уникальному ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Получить человека по ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID человека",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Данные человека",
+                        "schema": {
+                            "$ref": "#/definitions/models.Person"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Обновляет данные существующего человека.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Обновить данные человека",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID человека",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Обновленные данные человека",
+                        "name": "person",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Person"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Данные успешно обновлены",
+                        "schema": {
+                            "$ref": "#/definitions/models.Person"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Удаляет человека по его уникальному ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Удалить человека",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID человека",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Человек успешно удален",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Person": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nationality": {
+                    "type": "string"
+                },
+                "patronymic": {
+                    "type": "string"
+                },
+                "surname": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

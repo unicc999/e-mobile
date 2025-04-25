@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:17-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: asdqwe
+      POSTGRES_DB: emobile
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  peopleAPI:
+    image: peopleapi:1.0
+    restart: always
+    build:
+      context: ./project
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "8081:8080"
+
+volumes:
+  postgres_data:
